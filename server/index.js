@@ -1,13 +1,6 @@
-require('dotenv').config()
-const express = require('express');
-const app = express();
+const {resolve} = require('path');
+require('dotenv').config({ path: resolve(__dirname, '../.env')});
 
-const port = process.env.SERVER_PORT || 3000;
+const { initApp } = require('./initApp');
 
-// Router
-app.use('/', require('./routes/welcomeRoutes'));
-
-// Server up
-app.listen(port, () => {
-  console.log(`Server listening at port ${port}`);
-});
+initApp();

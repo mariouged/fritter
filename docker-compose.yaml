@@ -6,8 +6,9 @@ services:
         #context: .
         #dockerfile: ./server/Dockerfile
       volumes:
-        - ./server:/opt/server
-      working_dir: /opt/server
+        #- ./server:/opt/fritter/server
+        - ./:/opt/fritter
+      working_dir: /opt/fritter/server
       environment:
         NODE_ENV: development
       ports:
