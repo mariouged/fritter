@@ -2,6 +2,7 @@ version: "3.7"
 services: 
     nodejs:
       image: node:16-bullseye-slim
+      container_name: server_nodejs
       #build:
         #context: .
         #dockerfile: ./server/Dockerfile

@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 const {
+		DB_MYSQL_DIALECT,
     DB_MYSQL_HOST,
     DB_MYSQL_PORT,
     DB_MYSQL_DATABASE,
@@ -12,7 +13,7 @@ console.log(process.env.DB_MYSQL_DATABASE);
 module.exports.createConnection = async () => {
 
 	const sequelize = new Sequelize(DB_MYSQL_DATABASE, DB_MYSQL_USERNAME, DB_MYSQL_PASSWORD, {
-		dialect: 'mariadb',
+		dialect: DB_MYSQL_DIALECT,
 		dialectOptions: {
 			// mariadb options here
 			connectTimeout: 1000,
