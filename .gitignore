@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Sequelize migrations storage path
+database/migrations-sequelize-meta.json
