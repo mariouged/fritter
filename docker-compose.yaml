@@ -11,7 +11,7 @@ services:
         - ./:/opt/fritter
       working_dir: /opt/fritter/server
       environment:
-        NODE_ENV: development
+        NODE_ENV: ${NODE_ENV}
       ports:
         - 127.0.0.1:3000:${SERVER_PORT}
       command: npm run dev
