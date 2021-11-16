@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize');
-const connection = require('../config');
+import Sequelize from 'sequelize';
+import connection from '../config';
 
 module.exports.initializeDatabase = async () => {
 	try {

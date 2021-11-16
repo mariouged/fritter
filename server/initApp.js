@@ -1,5 +1,5 @@
-const {initializeDatabase} = require('./database/connect');
-const express = require('express');
+import { initializeDatabase } from './database/connect';
+import express from 'express';
 const app = express();
 
 const port = process.env.SERVER_PORT || 3000;

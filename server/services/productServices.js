@@ -1,7 +1,7 @@
-const { Op } = require("sequelize");
-const Product = require('../models/database/product');
-const crudRepository = require('../database/crudRepository');
-const { ProductIdShouldProvided } = require('../exceptions/productIdShouldProvided');
+import { Op } from "sequelize";
+import Product from '../models/database/product';
+import crudRepository from '../database/crudRepository';
+import { ProductIdShouldProvided } from '../exceptions/productIdShouldProvided';
 
 const OFFSET = 0;
 const LIMIT = 10;

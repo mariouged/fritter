@@ -1,5 +1,5 @@
-const fs = require('fs');
-const {resolve} = require('path');
+import fs from 'fs';
+import {resolve} from 'path';
 require('dotenv').config({ path: resolve(__dirname, '../../.env')});
 
 module.exports = {

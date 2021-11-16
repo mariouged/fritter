@@ -1,4 +1,4 @@
-const productService = require('../services/productServices');
+import productService from '../services/productServices';
 
 module.exports.read = async function (req, res) {
 	const responseObj = {

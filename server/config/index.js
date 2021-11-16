@@ -1,5 +1,5 @@
-const configs = require('./database');
-const { Sequelize } = require('sequelize')
+import configs from './database';
+import Sequelize from 'sequelize';
 
 const config = configs[process.env?.NODE_ENV]
 
