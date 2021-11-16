@@ -2,14 +2,14 @@ version: "3.7"
 services: 
     nodejs:
       image: node:16-bullseye-slim
-      container_name: server_nodejs
+      container_name: product
       #build:
         #context: .
         #dockerfile: ./server/Dockerfile
       volumes:
-        #- ./server:/opt/fritter/server
+        #- ./server:/opt/fritter/product
         - ./:/opt/fritter
-      working_dir: /opt/fritter/server
+      working_dir: /opt/fritter/product
       environment:
         NODE_ENV: ${NODE_ENV}
       ports:
