@@ -1,9 +1,7 @@
 import { resultCodes } from "../enum";
 
 export const globalErrorHandler = async (error, req, res, next) => {
-    console.log('globalErrorHandler');
   if (error) {
-    console.log('call from globalErrorHandler')
     let statusCode = 500
     
     if (error?.httpStatusCode) {
@@ -22,7 +20,6 @@ export const globalErrorHandler = async (error, req, res, next) => {
     });
 
   } else {
-    console.log('next call from globalErrorHandler')
     next(req, res, next);
   }
 }

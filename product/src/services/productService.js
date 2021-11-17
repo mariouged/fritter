@@ -5,6 +5,7 @@ import { ProductIdShouldProvided } from '../exceptions/productIdShouldProvided';
 import { validate as uuidValidate } from 'uuid';
 import { ProductIdShouldUUID } from "../exceptions/productIdShouldUUID";
 import { crudRepositoryException } from "../exceptions/crudRepositoryException";
+import { validationErrorException } from "../exceptions/validationErrorException";
 
 const OFFSET = 0;
 const LIMIT = 10;
@@ -80,6 +81,9 @@ module.exports.create = async function (input) {
 		return response;
 	} catch (error) {
 		if(error instanceof crudRepositoryException){
+			throw error;
+		}
+		if(error instanceof validationErrorException){
 			throw error;
 		}
 		throw new Error (error);

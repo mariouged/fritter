@@ -1,5 +1,6 @@
 import { ValidationError } from 'sequelize'
 import { crudRepositoryException } from '../exceptions/crudRepositoryException';
+import { validationErrorException } from '../exceptions/validationErrorException';
 
 module.exports.findAndCountAll= async (data) => {
     const response = { data: null };
@@ -36,14 +37,7 @@ module.exports.create = async (data) => {
         return response;
     } catch(error) {
         if (error instanceof ValidationError) {
-            const errorValidations = {};
-            error.errors.map( err => {
-                errorValidations[err.path] = err.message;
-            });
-            error.name = 'crudRepository-create';
-            error.message = 'Validation error';
-            error.validation = errorValidations;
-            throw new crudRepositoryException (error);
+            throw new validationErrorException(error);
         }
         error.name = 'crudRepository-save';
         throw new crudRepositoryException (error);
