@@ -190,7 +190,7 @@ describe('product enpoints', () => {
     
   });
 
-  describe('patch', () => {
+  describe('patch restore soft delete', () => {
     let productId = null;
     beforeAll(async () => {
       await Product.destroy({ where: {}, truncate: true });
@@ -208,7 +208,7 @@ describe('product enpoints', () => {
       expect(res.body.data.force).toEqual(false);
     });
 
-    test('restore product - hard delete', async () => {
+    test('restore product', async () => {
       const res = await supertest(app).patch(`/api/v1/product/restore/${productId}`);
 
       expect(res.statusCode).toEqual(200);
