@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import Product from '../models/database/product';
+import { Product } from '../models/database';
 import crudRepository from '../database/crudRepository';
 import { ProductIdShouldProvided } from '../exceptions/productIdShouldProvided';
 import { validate as uuidValidate } from 'uuid';

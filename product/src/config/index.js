@@ -1,7 +1,7 @@
 import configs from './database';
 import Sequelize from 'sequelize';
 
-const config = configs[process.env?.NODE_ENV]
+const config = configs[process.env?.NODE_ENV];
 
 const connection = new Sequelize(
     config.database,
@@ -12,6 +12,7 @@ const connection = new Sequelize(
         dialectOptions:config.dialectOptions,
         host: config.host,
         port: config.port,
+        //storage: config.storage
     }
 );
 

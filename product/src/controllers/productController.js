@@ -1,5 +1,4 @@
 
-import { response } from 'express';
 import { ProductService } from '../services';
 
 module.exports.read = async (req, res, next) => {

@@ -2,6 +2,7 @@
 import { DataTypes, Model } from 'sequelize';
 import connection from '../../config';
 
+const model = (sequelize, DataTypes) => {
 class Product extends Model {
   /**
    * Helper method for defining associations.
@@ -34,7 +35,7 @@ Product.init({
       notEmpty: true,
       len: {
         args: [2, 255],
-        msg: 'The name must contain between 2 and 100 characters.',
+        msg: 'The name must contain between 2 and 255 characters.',
       }
     }
   },
@@ -66,10 +67,14 @@ Product.init({
     }
   }
 }, {
-  sequelize: connection,
+  sequelize,
   modelName: 'Product',
-  paranoid: true,
+  paranoid: true, // soft-delete
   tableName: 'Products'
 });
 
-export default Product;
+return Product;
+
+}
+
+module.exports = model;

@@ -1,10 +1,14 @@
 import connection from '../config';
+import { Product } from '../models/database';
 
-module.exports.initializeDatabase = async () => {
+module.exports.initializeDatabase = async (mode = null) => {
 	try {
 		await connection.authenticate();
-		console.log('[MariaDB] Connection has been established successfully.');
+		console.log('[DB] Connection has been established successfully.');
+		if (mode === 'test') {
+			await Product.sync({});
+		}
 	} catch (error) {
-		console.error('[MariaDB] Unable to connect to the database:', error);
+		console.error('[DB] Unable to connect to the database:', error);
 	}
 }

@@ -19,16 +19,11 @@ module.exports = {
     migrationStoragePath: "src/database/migrations-sequelize-meta.json",
   },
   test: {
-    username: process.env.DB_MYSQL_USERNAME,
-    password: process.env.DB_MYSQL_PASSWORD,
-    database: process.env.DB_MYSQL_DATABASE,
-    host: process.env.DB_MYSQL_HOST,
-    port: process.env.DB_MYSQL_PORT,
-    dialect: process.env.DB_MYSQL_DIALECT,
-    dialectOptions: {
-      // options
-      connectTimeout: 1000,
-    }
+    username: process.env.TEST_DB_USERNAME,
+    password: process.env.TEST_DB_PASSWORD,
+    database: process.env.TEST_DB_DATABASE,
+    dialect: process.env.TEST_DB_DIALECT,
+    //storage: process.env.TEST_DB_STORAGE
   },
   production: {
     username: process.env.DB_MYSQL_USERNAME,
