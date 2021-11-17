@@ -1,6 +1,5 @@
-const fs = require('fs');
-const {resolve} = require('path');
-require('dotenv').config({ path: resolve(__dirname, '../../.env')});
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../../.env')});
 
 module.exports = {
   development: {
@@ -17,7 +16,7 @@ module.exports = {
     // Use a different storage type. Default: sequelize
     migrationStorage: "json",
     // Use a different file name. Default: sequelize-meta.json
-    migrationStoragePath: "database/migrations-sequelize-meta.json",
+    migrationStoragePath: "src/database/migrations-sequelize-meta.json",
   },
   test: {
     username: process.env.DB_MYSQL_USERNAME,
