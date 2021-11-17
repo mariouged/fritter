@@ -1,6 +1,6 @@
-import {resolve} from 'path';
-require('dotenv').config({ path: resolve(__dirname, '../../.env')});
+import path from 'path';
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env')});
 
-import { initApp } from './initApp';
+import Server from './server';
 
-initApp();
+Server.initServer();

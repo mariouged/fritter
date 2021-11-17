@@ -40,4 +40,20 @@ Migration storage and migration storage path are defined in file: `database.js`
 [Sequealize migrations](https://sequelize.org/master/manual/migrations.html)
 
 
+## Test
+### jest
+```
+npm install --save-dev jest
+```
+### SupertTest
+A library for testing Node.js HTTP servers. It enables us to programmatically send HTTP requests such as GET, POST, PATCH, PUT, DELETE to HTTP servers and get results.
+
+[SuperTest npm](https://www.npmjs.com/package/supertest)
+
+```
+npm install --save-dev supertest
+``
+
+
+
 

@@ -1,4 +1,3 @@
-import Sequelize from 'sequelize';
 import connection from '../config';
 
 module.exports.initializeDatabase = async () => {

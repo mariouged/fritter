@@ -1,85 +1,89 @@
-import productService from '../services/productServices';
 
-module.exports.read = async function (req, res) {
-	const responseObj = {
-			status: 500,
-			message: 'Internal server error'
-	}
-	const { name, description, price, offset, limit, distinct } = req.query;
+import { response } from 'express';
+import { ProductService } from '../services';
+
+module.exports.read = async (req, res, next) => {
+	const response = { status: 500, data: null}
+	const { name, description, price, offset, limit, distinct, deleted } = req.query;
 	try {
-			const data = {
-					name,
-					description,
-					price,
-					offset,
-					limit,
-					distinct
-			};
-			const responseFromService = await productService.read(data);
-			if (responseFromService.status) {
-					if (responseFromService.result) {
-							responseObj.status = 200;
-							responseObj.data = responseFromService.result;
-							responseObj.message = "Products fetched successfully";
-					} else {
-							responseObj.message = "No products found";
-							responseObj.status = 404;
-					}
-			};
+		const data = {
+			name,
+			description,
+			price,
+			offset,
+			limit,
+			distinct,
+			deleted
+		};
+		const responseFromService = await ProductService.read(data);
+		response.data = responseFromService.data;
+		response.status = response.data ? 200 : 404; 
+		res.locals.response = response;
+		next();
 	} catch (error) {
-			responseObj.error = error;
-			console.log('ERROR-productsController-read: ', error);
+		next(error);
+		console.log('ERROR-productsController-read: ', error);
 	}
-	return res.status(responseObj.status).send(responseObj);
 }
 
-module.exports.findById = async function (req, res) {
-  const responseObj = {
-		status: 500,
-		message: 'Internal server error'
-	};
+module.exports.findById = async (req, res, next) => {
+  const response = { status: 500, data: null };
 	try {
-		const productId = req.params.id;
-		const responseFromService = await productService.findById(productId);
-		if (responseFromService.status) {
-			if (responseFromService.result) {
-				responseObj.status = 200;
-				responseObj.data = responseFromService.result;
-				responseObj.message = 'Product fetched successfully';
-			} else {
-				responseObj.status = 404;
-				responseObj.data = responseFromService.result;
-				responseObj.message = 'Product not found';
-			}   
-		}
+		const data = req.params;
+		const responseFromService = await ProductService.findById(data);
+		response.data = responseFromService.data;
+		response.status = response.data ? 200 : 404;  
+		res.locals.response = response;
+		next();
 	} catch (error) {
-		responseObj.error = error;
 		console.log('ERROR-productController-findById');
+		next(error);
 	}
-	return res.status(responseObj.status).send(responseObj);
- }
+}
 
-
-module.exports.create = async function (req, res) {
-	const responseObj = {
-		status: 500,
-		message: 'Internal server error'
-	}
+module.exports.create = async (req, res, next) => {
+	const response = { status: 500, data: null };
 	const data = req.body;
 	try {
-		const responseFromService = await productService.create(data);
-		if (responseFromService.status) {
-			if (responseFromService.result){
-					responseObj.status = 201;
-					responseObj.data = responseFromService.result;
-					responseObj.message = "Product created successfully";
-			}
-		} else {
-			responseObj.error = responseFromService.error;
-		}
+		const responseFromService = await ProductService.create(data);
+		response.data = responseFromService.data;
+		response.status = 201;
+		res.locals.response = response;
+		next();
 	} catch (error) {
-		responseObj.error = error;
 		console.log('ERROR-productController-create: ', error);
+		next(error);
 	}
-	return res.status(responseObj.status).send(responseObj);
+}
+
+module.exports.destroy = async (req, res, next) => {
+	const response = { status: 500, data: null };
+	try {
+		const dataParams = req.params;
+		const dataQuery = req.query;
+		const data = { ...dataQuery, ...dataParams};
+		const responseFromService = await ProductService.destroy(data);
+		response.data = responseFromService.data;
+		response.status = 200;
+		res.locals.response = response;
+		next();
+	} catch (error) {
+		console.log('ERROR-productController-delete: ', error);
+		next(error);
+	}
+}
+
+module.exports.restore = async (req, res, next) => {
+	const response = { status: 500, data: null };
+	try {
+		const data = req.params;
+		const responseFromService = await ProductService.restore(data);
+		response.data = responseFromService.data;
+		response.status = 200;
+		res.locals.response = response;
+		next();
+	} catch (error) {
+		console.log('ERROR-productController-restore: ', error);
+		next(error);
+	}
 }

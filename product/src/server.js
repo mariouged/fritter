@@ -1,10 +1,11 @@
 import { initializeDatabase } from './database/connect';
+import { globalErrorHandler, sendResponseHandler } from './middlewares'
 import express from 'express';
 const app = express();
 
 const port = process.env.SERVER_PORT || 3000;
 
-module.exports.initApp = async () => {
+module.exports.initServer = async () => {
 
     // server options
     app.use(express.json()) // for parsing application/json
@@ -13,6 +14,8 @@ module.exports.initApp = async () => {
     // Router
     app.use('/', require('./routes/welcomeRoutes'));
     app.use('/api/v1/product', require('./routes/productRoutes'));
+    app.use(globalErrorHandler);
+    app.use(sendResponseHandler);
 
     // Server up
     app.listen(port, async () => {
