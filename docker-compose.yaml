@@ -32,7 +32,7 @@ services:
         MYSQL_USER: ${DB_MYSQL_USERNAME}
         MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
       ports:
-        - 127.0.0.1:3306:3306
+        - 127.0.0.1:3306:${DB_MYSQL_PORT}
       ulimits:
         nofile:
           soft: 65535
@@ -40,6 +40,19 @@ services:
       networks:
         fritter_net:
           ipv4_address: 172.16.240.12
+    rabbitmq:
+      image: rabbitmq:3.9-management-alpine
+      container_name: rabbitmq
+      environment:
+        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      ports:
+        - 127.0.0.1:5672:${RABBITMQ_QUEUE_PORT}
+        - 127.0.0.1:15672:${RABBITMQ_WEBUI_PORT}
+      networks:
+        fritter_net:
+          ipv4_address: 172.16.240.14
+
 volumes:
   mariadb_data: {}
   mariadb_log: {}
