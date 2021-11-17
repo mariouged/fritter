@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # Sequelize migrations storage path
-database/migrations-sequelize-meta.json
+src/database/migrations-sequelize-meta.json
