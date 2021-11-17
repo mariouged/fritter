@@ -12,7 +12,6 @@ module.exports.findAndCountAll= async (data) => {
         error.name = 'crudRepository-findAndCountAll';
         throw new crudRepositoryException (error);
     }
-    
 };
 
 module.exports.findById = async (data) => {
@@ -58,7 +57,7 @@ module.exports.destroy = async (data) => {
         error.name = 'crudRepository-delete';
         throw new crudRepositoryException (error);
     }
-}
+};
 
 module.exports.restore = async (data) => {
     const response = { data: null };
@@ -67,10 +66,10 @@ module.exports.restore = async (data) => {
         const restoredRows = await data.model.restore({
             where: { id: data.id },
         });
-        response.data = { restoredRows, force: data.force };
+        response.data = { restoredRows };
         return response;
     } catch(error) {
         error.name = 'crudRepository-restore';
         throw new crudRepositoryException (error);
     }
-}
+};
