@@ -1,0 +1,6 @@
+# product-service
+PRODUCT_SERVICE_URL=172.16.240.10:3000
+
+
+# notification-service
+NOTIFICATION_SERVICE_URL=172.16.240.16:3001

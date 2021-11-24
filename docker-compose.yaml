@@ -1,57 +1,102 @@
 version: "3.7"
-services: 
-    nodejs:
-      image: node:16-bullseye-slim
-      container_name: product
-      #build:
-        #context: .
-        #dockerfile: ./server/Dockerfile
-      volumes:
-        #- ./server:/opt/fritter/product
-        - ./:/opt/fritter
-      working_dir: /opt/fritter/product
-      environment:
-        NODE_ENV: ${NODE_ENV}
-      ports:
-        - 127.0.0.1:3000:${SERVER_PORT}
-      command: npm run dev
-      restart: always
-      networks:
-        fritter_net:
-          ipv4_address: 172.16.240.10
-    mariadb:
-      image: mariadb:latest
-      container_name: mariadb
-      restart: always
-      volumes: 
-        - mariadb_data:/var/lib/mysql
-        - mariadb_log:/var/log/mysql
-      environment:
-        MYSQL_ROOT_PASSWORD: ${DB_MYSQL_ROOT_PASSWORD}
-        MYSQL_DATABASE: ${DB_MYSQL_DATABASE}
-        MYSQL_USER: ${DB_MYSQL_USERNAME}
-        MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
-      ports:
-        - 127.0.0.1:3306:${DB_MYSQL_PORT}
-      ulimits:
-        nofile:
-          soft: 65535
-          hard: 65535
-      networks:
-        fritter_net:
-          ipv4_address: 172.16.240.12
-    rabbitmq:
-      image: rabbitmq:3.9-management-alpine
-      container_name: rabbitmq
-      environment:
-        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      ports:
-        - 127.0.0.1:5672:${RABBITMQ_QUEUE_PORT}
-        - 127.0.0.1:15672:${RABBITMQ_WEBUI_PORT}
-      networks:
-        fritter_net:
-          ipv4_address: 172.16.240.14
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    volumes: 
+      - mariadb_data:/var/lib/mysql
+      - mariadb_log:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_MYSQL_DATABASE}
+      MYSQL_USER: ${DB_MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
+    ports:
+      - 127.0.0.1:3306:${DB_MYSQL_PORT}
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    networks:
+      fritter_net:
+        ipv4_address: 172.16.240.12
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
+    ports:
+      - 127.0.0.1:5672:${RABBITMQ_QUEUE_PORT}
+      - 127.0.0.1:15672:${RABBITMQ_WEBUI_PORT}
+    networks:
+      fritter_net:
+        ipv4_address: 172.16.240.14
+  product_service:
+    image: node:16-bullseye-slim
+    container_name: product
+    #build:
+      #context: .
+      #dockerfile: ./server/Dockerfile
+    volumes:
+      #- ./server:/opt/fritter/product
+      - ./:/opt/fritter
+    working_dir: /opt/fritter/product
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - 127.0.0.1:${SERVER_PORT}:${SERVER_PORT}
+    command: npm run dev
+    restart: always
+    depends_on:
+      - mariadb
+      - rabbitmq
+    networks:
+      fritter_net:
+        ipv4_address: 172.16.240.10
+  notification_service:
+    image: node:16-bullseye-slim
+    container_name: notification
+    #build:
+      #context: .
+      #dockerfile: ./server/Dockerfile
+    volumes:
+      #- ./server:/opt/fritter/product
+      - ./:/opt/fritter
+    working_dir: /opt/fritter/notification
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - 127.0.0.1:${NOTIFICATION_SERVICE_PORT}:${NOTIFICATION_SERVICE_PORT}
+    command: npm start
+    restart: always
+    depends_on:
+      - mariadb
+      - rabbitmq
+    networks:
+      fritter_net:
+        ipv4_address: 172.16.240.16
+  client:
+    image: node:16-bullseye-slim
+    container_name: client
+    #build:
+      #context: .
+      #dockerfile: ./server/Dockerfile
+    volumes:
+      #- ./server:/opt/fritter/product
+      - ./:/opt/fritter
+    working_dir: /opt/fritter/client
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    ports:
+      - 127.0.0.1:${CLIENT_PORT}:${CLIENT_PORT}
+    command: npm run dev
+    restart: always
+    networks:
+      fritter_net:
+        ipv4_address: 172.16.240.18
 
 volumes:
   mariadb_data: {}

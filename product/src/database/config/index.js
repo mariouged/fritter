@@ -3,17 +3,18 @@ import Sequelize from 'sequelize';
 
 const config = configs[process.env?.NODE_ENV];
 
-const connection = new Sequelize(
+const connectionDB = new Sequelize(
     config.database,
     config.username,
     config.password,
     {
         dialect: config.dialect,
-        dialectOptions:config.dialectOptions,
+        dialectOptions: config.dialectOptions,
         host: config.host,
         port: config.port,
         //storage: config.storage
     }
 );
 
-module.exports = connection;
+module.exports = connectionDB;
+
