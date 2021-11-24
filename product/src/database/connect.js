@@ -1,9 +1,9 @@
-import connection from '../config';
-import { Product } from '../models/database';
+import connectionDB from './config';
+import { Product } from './models';
 
 module.exports.initializeDatabase = async (mode = null) => {
 	try {
-		await connection.authenticate();
+		await connectionDB.authenticate();
 		console.log('[DB] Connection has been established successfully.');
 		if (mode === 'test') {
 			await Product.sync({});

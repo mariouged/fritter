@@ -1,11 +1,12 @@
 import { Op } from "sequelize";
-import { Product } from '../models/database';
+import { Product } from '../database/models';
 import crudRepository from '../database/crudRepository';
 import { ProductIdShouldProvided } from '../exceptions/productIdShouldProvided';
 import { validate as uuidValidate } from 'uuid';
 import { ProductIdShouldUUID } from "../exceptions/productIdShouldUUID";
 import { crudRepositoryException } from "../exceptions/crudRepositoryException";
 import { validationErrorException } from "../exceptions/validationErrorException";
+import { NotificationService } from '.';
 
 const OFFSET = 0;
 const LIMIT = 10;
@@ -23,7 +24,8 @@ module.exports.read = async function (input) {
 					offset: !isNaN(offset) ? +offset : OFFSET,
 					limit: !isNaN(limit) ? +limit : LIMIT,
 					distinct: distinct ?? DISTINCT,
-					paranoid: PARANOID, 
+					paranoid: PARANOID,
+					order: [['createdAt', 'DESC']]
 			},
 		};
 
@@ -78,6 +80,7 @@ module.exports.create = async function (input) {
 	try {
 		const responseFromDatabase = await crudRepository.create(data);
 		response.data = responseFromDatabase.data;
+		NotificationService.sendNotification(response, 'new_product');
 		return response;
 	} catch (error) {
 		if(error instanceof crudRepositoryException){

@@ -1,8 +1,8 @@
 import supertest from 'supertest';
 import { initializeDatabase } from '../src/database/connect';
 import { ProductService } from '../src/services';
-import { Product } from '../src/models/database';
-import { sampleProduct } from './samples/sampleData';
+import { Product } from '../src/database/models';
+import { sampleProduct } from './samples';
 
 const app = require('../src/server');
 
